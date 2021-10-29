@@ -1,4 +1,7 @@
 using Catalog.Core.Settings;
+using Catalog.Infrastructure.Model;
+using Catalog.Repository.Repositories;
+using Catalog.Repository.Repositories.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -9,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,9 +32,15 @@ namespace Catalog.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<MongoDbSettings>(Configuration.GetSection("MongoDbSettings"));
+            var mongoConf = Configuration.GetSection("MongoDbSettings").Get<MongoDbSettings>();
+            services.AddSingleton<IMongoClient>(_ =>
+            {
+                return new MongoClient(mongoConf.ConnectionString);
+            });
 
-            services.AddSingleton<IMongoDbSettings>(sp => sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
+            services.AddScoped(sp => new MongoDbContext(sp.GetRequiredService<IMongoClient>(), mongoConf.DatabaseName));
+
+            services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

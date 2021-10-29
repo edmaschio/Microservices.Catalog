@@ -1,6 +1,6 @@
 ﻿namespace Catalog.Core.Settings
 {
-    public class MongoDbSettings : IMongoDbSettings
+    public class MongoDbSettings
     {
         public string DatabaseName { get; set; }
 

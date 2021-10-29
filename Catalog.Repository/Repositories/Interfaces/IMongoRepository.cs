@@ -25,6 +25,28 @@ namespace Catalog.Repository.Repositories.Interfaces
 
         Task<TDocument> FindByIdAsync(string id);
 
+        void InsertOne(TDocument document);
 
+        Task InsertOneAsync(TDocument document);
+
+        void InsertMany(ICollection<TDocument> documents);
+
+        Task InsertManyAsync(ICollection<TDocument> documents);
+
+        void ReplaceOne(TDocument document);
+
+        Task ReplaceOneAsync(TDocument document);
+
+        void DeleteOne(Expression<Func<TDocument, bool>> filterExpression);
+
+        Task DeleteOneAsync(Expression<Func<TDocument, bool>> filterExpression);
+
+        void DeleteById(string id);
+
+        Task DeleteByIdAsync(string id);
+
+        void DeleteMany(Expression<Func<TDocument, bool>> filterExpression);
+
+        Task DeleteManyAsync(Expression<Func<TDocument, bool>> filterExpression);
     }
 }
