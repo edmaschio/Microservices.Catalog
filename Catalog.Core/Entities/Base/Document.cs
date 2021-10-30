@@ -2,7 +2,7 @@
 using MongoDB.Bson;
 using System;
 
-namespace Catalog.Core.Entities
+namespace Catalog.Core.Entities.Base
 {
     public abstract class Document : IDocument
     {

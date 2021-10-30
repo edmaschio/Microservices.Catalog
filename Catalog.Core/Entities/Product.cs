@@ -1,4 +1,5 @@
 ﻿using Catalog.Core.Attributes;
+using Catalog.Core.Entities.Base;
 
 namespace Catalog.Core.Entities
 {

@@ -1,5 +1,6 @@
 ﻿using Catalog.Core.Attributes;
 using Catalog.Core.Entities;
+using Catalog.Core.Entities.Base;
 using Catalog.Infrastructure.Model;
 using Catalog.Repository.Repositories.Interfaces;
 using MongoDB.Bson;
@@ -20,13 +21,6 @@ namespace Catalog.Repository.Repositories
         public MongoRepository(MongoDbContext context)
         {
             _collection = context.Database.GetCollection<TDocument>(GetCollectionName(typeof(TDocument)));
-        }
-
-        private protected static string GetCollectionName(Type documentType)
-        {
-            return ((BsonCollectionAttribute) documentType.GetCustomAttributes(
-                typeof(BsonCollectionAttribute), true)
-                .FirstOrDefault())?.CollectionName;
         }
 
         public virtual IQueryable<TDocument> AsQueryable()
@@ -148,5 +142,11 @@ namespace Catalog.Repository.Repositories
             return filter;
         }
 
+        private protected static string GetCollectionName(Type documentType)
+        {
+            return ((BsonCollectionAttribute)documentType.GetCustomAttributes(
+                typeof(BsonCollectionAttribute), true)
+                .FirstOrDefault())?.CollectionName;
+        }
     }
 }

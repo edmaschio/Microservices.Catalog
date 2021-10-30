@@ -1,9 +1,10 @@
 ﻿using Catalog.Core.Attributes;
+using Catalog.Core.Entities.Base;
 using System;
 
 namespace Catalog.Core.Entities
 {
-    [BsonCollectionAttribute("customer")]
+    [BsonCollection("customer")]
     public class Customer : Document
     {
         public string FirstName { get; set; }
