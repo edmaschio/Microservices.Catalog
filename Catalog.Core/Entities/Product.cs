@@ -1,15 +1,14 @@
 ﻿using Catalog.Core.Attributes;
 using Catalog.Core.Entities.Base;
+using System;
 
 namespace Catalog.Core.Entities
 {
     [BsonCollection("product")]
-    public class Product : Document
+    public record Product : Document
     {
-        public string Name { get; set; }
-        public string Category { get; set; }
-        public string Description { get; set; }
-        public string Image { get; set; }
-        public decimal Price { get; set; }
+        public string Name { get; init; }
+        public decimal Price { get; init; }
+        public DateTime ReleaseDate { get; init; }
     }
 }

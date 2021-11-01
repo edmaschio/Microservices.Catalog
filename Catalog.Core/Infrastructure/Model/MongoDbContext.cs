@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 
-namespace Catalog.Infrastructure.Model
+namespace Catalog.Core.Infrastructure.Model
 {
     public class MongoDbContext
     {

@@ -1,22 +1,16 @@
+using Catalog.Core.Infrastructure.Model;
+using Catalog.Core.Repositories;
+using Catalog.Core.Repositories.Interfaces;
 using Catalog.Core.Settings;
-using Catalog.Infrastructure.Model;
-using Catalog.Repository.Repositories;
-using Catalog.Repository.Repositories.Interfaces;
+using Catalog.WebAPI.Mapping;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Catalog.WebAPI
 {
@@ -40,7 +34,10 @@ namespace Catalog.WebAPI
 
             services.AddScoped(sp => new MongoDbContext(sp.GetRequiredService<IMongoClient>(), mongoConf.DatabaseName));
 
+            services.AddSingleton<IMapper, Mapper>();
+
             services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
+            services.AddMediatR(typeof(Startup));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

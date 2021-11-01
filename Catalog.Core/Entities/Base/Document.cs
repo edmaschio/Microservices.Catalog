@@ -4,9 +4,9 @@ using System;
 
 namespace Catalog.Core.Entities.Base
 {
-    public abstract class Document : IDocument
+    public abstract record Document : IDocument
     {
-        public ObjectId Id { get; set; }
+        public ObjectId Id { get; init; }
 
         public DateTime CreatedAt => Id.CreationTime;
     }

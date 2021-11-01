@@ -1,8 +1,7 @@
 ﻿using Catalog.Core.Attributes;
-using Catalog.Core.Entities;
 using Catalog.Core.Entities.Base;
-using Catalog.Infrastructure.Model;
-using Catalog.Repository.Repositories.Interfaces;
+using Catalog.Core.Infrastructure.Model;
+using Catalog.Core.Repositories.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -11,7 +10,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Catalog.Repository.Repositories
+namespace Catalog.Core.Repositories
 {
     public class MongoRepository<TDocument> : IMongoRepository<TDocument>
         where TDocument : Document
@@ -26,6 +25,12 @@ namespace Catalog.Repository.Repositories
         public virtual IQueryable<TDocument> AsQueryable()
         {
             return _collection.AsQueryable();
+        }
+
+        public virtual async Task<IEnumerable<TDocument>> GetAllAsync() 
+        {
+            var all = await _collection.FindAsync(Builders<TDocument>.Filter.Empty);
+            return all.ToList();
         }
 
         public virtual IEnumerable<TDocument> FilterBy(Expression<Func<TDocument, bool>> filterExpression)
@@ -144,9 +149,13 @@ namespace Catalog.Repository.Repositories
 
         private protected static string GetCollectionName(Type documentType)
         {
-            return ((BsonCollectionAttribute)documentType.GetCustomAttributes(
+            var result = ((BsonCollectionAttribute)documentType.GetCustomAttributes(
                 typeof(BsonCollectionAttribute), true)
                 .FirstOrDefault())?.CollectionName;
+
+            result ??= documentType.Name;
+
+            return result;
         }
     }
 }

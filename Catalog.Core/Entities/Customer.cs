@@ -5,10 +5,10 @@ using System;
 namespace Catalog.Core.Entities
 {
     [BsonCollection("customer")]
-    public class Customer : Document
+    public record Customer : Document
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public DateTime BirthDate { get; set; }
+        public string FirstName { get; init; }
+        public string LastName { get; init; }
+        public DateTime BirthDate { get; init; }
     }
 }
