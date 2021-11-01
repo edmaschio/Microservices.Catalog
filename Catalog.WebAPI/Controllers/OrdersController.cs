@@ -1,5 +1,6 @@
 ﻿using Catalog.Core.Entities;
 using Catalog.Core.Repositories.Interfaces;
+using Catalog.WebAPI.Commands;
 using Catalog.WebAPI.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -16,13 +17,11 @@ namespace Catalog.WebAPI.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private readonly ILogger<OrdersController> _logger;
         private readonly IMediator _mediator;
 
-        public OrdersController(IMediator mediator, ILogger<OrdersController> logger)
+        public OrdersController(IMediator mediator)
         {
             _mediator = mediator;
-            _logger = logger;
         }
 
         // GET: api/<SampleController>
@@ -37,7 +36,16 @@ namespace Catalog.WebAPI.Controllers
         [HttpGet("{orderId}")]
         public async Task<IActionResult> GetOrder(string orderId)
         {
-            throw new NotImplementedException();
+            var query = new GetOrderByIdQuery(orderId);
+            var result = await _mediator.Send(query);
+            return result != null ? Ok(result) : NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateOrder([FromBody] CreateCustomerOrderCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return CreatedAtAction("GetOrder", new { orderId = result.OrderId }, result);
         }
     }
 }

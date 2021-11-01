@@ -12,7 +12,7 @@ namespace Catalog.WebAPI.Mapping
             return orders.Select(s => MapOrderDtoToOrderResponse(s)).ToList();
         }
 
-        private OrderResponse MapOrderDtoToOrderResponse(Order order)
+        public OrderResponse MapOrderDtoToOrderResponse(Order order)
         {
             return new OrderResponse
             {
