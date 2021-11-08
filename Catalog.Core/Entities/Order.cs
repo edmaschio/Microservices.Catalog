@@ -1,8 +1,10 @@
-﻿using Catalog.Core.Entities.Base;
+﻿using Catalog.Core.Attributes;
+using Catalog.Core.Entities.Base;
 using System;
 
 namespace Catalog.Core.Entities
 {
+    [BsonCollection("order")]
     public record Order : Document
     {
         //public Customer Customer { get; set; }
