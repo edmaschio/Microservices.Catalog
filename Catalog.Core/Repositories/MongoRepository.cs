@@ -2,7 +2,6 @@
 using Catalog.Core.Entities.Base;
 using Catalog.Core.Infrastructure.Model;
 using Catalog.Core.Repositories.Interfaces;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
