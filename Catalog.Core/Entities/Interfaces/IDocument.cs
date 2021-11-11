@@ -8,7 +8,6 @@ namespace Catalog.Core.Entities.Interfaces
     {
         [BsonId]
         [BsonRepresentation(BsonType.String)]
-        ObjectId Id { get; init; }
-        DateTime CreatedAt { get; }
+        Guid Id { get; init; }
     }
 }

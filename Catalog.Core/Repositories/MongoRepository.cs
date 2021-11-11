@@ -142,7 +142,7 @@ namespace Catalog.Core.Repositories
 
         private static FilterDefinition<TDocument> GetEqFilterById(string id)
         {
-            var objectId = new ObjectId(id);
+            var objectId = new Guid(id);
             var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, objectId);
             return filter;
         }
